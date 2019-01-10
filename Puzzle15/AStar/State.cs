@@ -36,14 +36,11 @@ public class State : IComparable {
 
     private void CalculateCost() {
         if (Parent == null) {
-            // We are at the first state - we assume we have been asked to be at this state, so no cost.
             CostG = 0;
         } else {
-            // Here, state transition cost is 1 unit. Since transition from one state to another is by moving he tile one step.
             CostG = Parent.CostG + 1;
         }
 
-        // Heuristic cost
         CostH = GetHeuristicCost();
 
         CostF = CostH + CostG;
@@ -59,7 +56,6 @@ public class State : IComparable {
         for (int i = 0 ; i < Nodes.Length ; i++) {
             int value = Nodes[i] - 1;
 
-            // Space tile's value is -1
             if (value == -2) {
                 value = Nodes.Length - 1;
                 SpaceIndex = i;
@@ -90,7 +86,6 @@ public class State : IComparable {
             }
 
             if (value != i) {
-                // Misplaced tile
                 idealX = value % gridX;
                 idealY = value / gridX;
 
@@ -116,7 +111,6 @@ public class State : IComparable {
     }
 
     public bool IsFinalState() {
-        // If all tiles are at correct position, we are into final state.
         return CostH == 0;
     }
 
@@ -144,8 +138,6 @@ public class State : IComparable {
         if (CanMove(direction, out int position)) {
             int[] nodes = new int[Nodes.Length];
             Array.Copy(Nodes, nodes, Nodes.Length);
-
-            // Get new state nodes
             Swap(nodes, SpaceIndex, position);
 
             return new State(this, nodes);
@@ -170,7 +162,6 @@ public class State : IComparable {
 
         switch (direction) {
             case Direction.Up: {
-                    // Can not move up if we are at the top
                     if (currentY != 0) {
                         newX = currentX;
                         newY = currentY - 1;
@@ -179,7 +170,6 @@ public class State : IComparable {
                 break;
 
             case Direction.Down: {
-                    // Can not move down if we are the lowest level
                     if (currentY < (gridX - 1)) {
                         newX = currentX;
                         newY = currentY + 1;
@@ -188,7 +178,6 @@ public class State : IComparable {
                 break;
 
             case Direction.Left: {
-                    // Can not move left if we are at the left most position
                     if (currentX != 0) {
                         newX = currentX - 1;
                         newY = currentY;
@@ -197,7 +186,6 @@ public class State : IComparable {
                 break;
 
             case Direction.Right: {
-                    // Can not move right if we are at the right most position
                     if (currentX < (gridX - 1)) {
                         newX = currentX + 1;
                         newY = currentY;

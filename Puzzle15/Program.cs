@@ -4,7 +4,12 @@ namespace Puzzle15 {
     class Program {
         static void Main(string[] args) {
             AStarAlgorithm strategy = new AStarAlgorithm();
-            int[] states = new int[] { 1, 4, 3, 2, 5, 8, 7, -1, 6 };
+
+            int[] states = new int[] {
+                1, 4, 3,
+                2, 5, 8,
+                7, -1, 6
+            };
 
             Solve15PuzzleProblem(strategy, states, HeuristicMethod.ManhattanDistance);
             Solve15PuzzleProblem(strategy, states, HeuristicMethod.MisplacedTiles);
